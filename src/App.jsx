@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getContact } from './redux/slice'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import ContactForm from './components/ContactForm'
+import React, { useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ContactForm from "./components/ContactForm";
+import ShowContacts from "./page/ShowContacts";
+import ShowSingleContact from "./page/ShowSingleContact";
+import { getContact } from "./redux/slice";
+import { useDispatch } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
-  const { contact, loading, error } = useSelector((state) => state.contact);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,37 +16,24 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
-      <Navbar />
-
-      <main className="flex-1">
-        <ContactForm />
-
-        <div className="mt-10 text-center">
-          <h2 className="text-2xl font-semibold mb-4">All Contacts</h2>
-
-          {loading && <p>Loading...</p>}
-          {error && <p className="text-red-600">{error}</p>}
-
-          {contact && contact.length > 0 ? (
-            <div className="flex flex-wrap justify-center gap-4">
-              {contact.map((data) => (
-                <div key={data._id} className="bg-white shadow-md rounded-lg p-4 w-64 text-left">
-                  <p><strong>Name:</strong> {data.name}</p>
-                  <p><strong>Email:</strong> {data.email}</p>
-                  <p><strong>Phone:</strong> {data.phoneNumber}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            !loading && <p>No contacts found.</p>
-          )}
-        </div>
-      </main>
-
-      <Footer />
+    <div className="bg-gray-50 min-h-screen flex flex-col">
+      <BrowserRouter>
+        <header className="sticky top-0 z-50 bg-white shadow-md">
+          <Navbar />
+        </header>
+        <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <Routes>
+            <Route path="/" element={<ShowContacts />} />
+            <Route path="/create-contact" element={<ContactForm />} />
+            <Route path="/single-contact-details/:id" element={<ShowSingleContact />} />
+          </Routes>
+        </main>
+        <footer className="mt-auto bg-white shadow-inner py-4">
+          <Footer />
+        </footer>
+      </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
