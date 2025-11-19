@@ -4,7 +4,7 @@ import axios from 'axios'
 export const createContact = createAsyncThunk("Create/contact",async({name,email,phoneNumber},{rejectWithValue})=>{
     try{
 
-        const {data} = await axios.post(`http://localhost:5000/api/v1/contacts`,{name,email,phoneNumber});
+        const {data} = await axios.post(`https://contact-manager-bakcend.onrender.com/api/v1/contacts`,{name,email,phoneNumber});
         return data;
 
     }catch(e){
@@ -14,7 +14,7 @@ export const createContact = createAsyncThunk("Create/contact",async({name,email
 
 export const getContact = createAsyncThunk("get/contact",async ({keyword="",searchBy=""}={}, { rejectWithValue }) => {
     try {
-      let link = `http://localhost:5000/api/v1/contacts`
+      let link = `https://contact-manager-bakcend.onrender.com/api/v1/contacts`
       if(keyword && keyword !== ""){
         link += `?keyword=${keyword}`
       }
@@ -37,7 +37,7 @@ export const getContact = createAsyncThunk("get/contact",async ({keyword="",sear
 
 export const getSingleContact = createAsyncThunk("get/single", async(id,{rejectWithValue})=>{
   try{
-    const { data } = await axios.get(`http://localhost:5000/api/v1/contact?id=${id}`);
+    const { data } = await axios.get(`https://contact-manager-bakcend.onrender.com/api/v1/contact?id=${id}`);
     return data;
   }catch(e){
     return rejectWithValue(e.response?.data || "Error occour to get single contact")
@@ -46,7 +46,7 @@ export const getSingleContact = createAsyncThunk("get/single", async(id,{rejectW
 
 export const deleteContact = createAsyncThunk("delete/single", async(id,{rejectWithValue})=>{
   try{
-    const { data } = await axios.delete(`http://localhost:5000/api/v1/contact?id=${id}`);
+    const { data } = await axios.delete(`https://contact-manager-bakcend.onrender.com/api/v1/contact?id=${id}`);
     return data;
   }catch(e){
     return rejectWithValue(e.response?.data || "Error occour to delete contact")
